@@ -2,10 +2,10 @@ function node(String myName){
   this.name = myName;
   this.links = [];
   this.currPlayers = [];
+  this.cards = [][];
   this.hasMonster = false;
   this.isLocked = false;
 }
-
 
 function makeMap(){
   museum.push(new node("Lobby")); //0
@@ -16,4 +16,8 @@ function makeMap(){
   museum.push(new node("Power Room")); //5
   museum.push(new node("Security Room")); //6
   museum.push(new node("Medieval Exhibit")); //7
+}
+
+function fillCards(node currRoom){
+
 }

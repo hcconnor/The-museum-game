@@ -1,7 +1,11 @@
-var museum = [];
+int currStage;
+var museum;
 
 function init(){
+  currStage = 1;
+  museum = [];
 
+  makeMap();
 }
 
 function draw(){
