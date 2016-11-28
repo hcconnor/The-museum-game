@@ -1,3 +1,4 @@
+var museum = [];
 
 function init(){
 
