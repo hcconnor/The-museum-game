@@ -19,7 +19,3 @@ var abilities = {
 function gui(){
 
 }
-
-function changeTurn(){
-
-}
