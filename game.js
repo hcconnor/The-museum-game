@@ -64,3 +64,11 @@ function fillParty(){
 
 init();
 setInterval(stateManager,FRAMES);
+
+var input = new CanvasInput({
+canvas: document.getElementById('The-Museum-Game')
+});
+
+$("#theButton").click(function(){
+    console.log(input.value())
+})
