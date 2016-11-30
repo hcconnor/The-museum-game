@@ -1,8 +1,7 @@
-function node(String myName){
+function node(myName){
   this.name = myName;
   this.links = [];
   this.currPlayers = [];
-  this.cards = [][];
   this.hasMonster = false;
   this.isLocked = false;
 }
@@ -18,6 +17,6 @@ function makeMap(){
   museum.push(new node("Medieval Exhibit")); //7
 }
 
-function fillCards(node currRoom){
+function fillCards(currRoom){
 
 }
