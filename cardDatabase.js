@@ -1,16 +1,28 @@
 //----------------------------BASE CARD OBJECT---------------------
-function cardBase(myRoom, myDialogue, myEffect){
+/*    USAGE
+  Draw card, check card type. If card is not an item, call card.action();
+  If card is item or has no action, nothing happens.
+  Player can use ability "pick up" on items.
+
+  IMPLEMENTATION NOTES OR QUESTIONS:
+    Should dialogue be contained within objects or should the objects
+    be part of the array in the list where dialogue/text is kept right now?
+
+*/
+function cardBase(myRoom, myType, myDialogue, myEffect){
   this.room = myRoom;
+  this.type = myType;
   this.dialogue = myDialogue;
   this.effect = myEffect;
 };
 
-function item(myRoom, myDialogue, myEffect){
-  cardBase.call(this, myRoom, myDialogue, myEffect);
+function item(myRoom, myDialogue, myEffect, myName){
+  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  this.name = myName;
 };
 
 function affectPlayerHealth(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -19,7 +31,7 @@ function affectPlayerHealth(myRoom, myDialogue, myEffect, myValue){
 };
 
 function affectGlobalBoolean(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -28,7 +40,7 @@ function affectGlobalBoolean(myRoom, myDialogue, myEffect, myValue){
 };
 
 function affectPlayerAP(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -37,7 +49,7 @@ function affectPlayerAP(myRoom, myDialogue, myEffect, myValue){
 };
 
 function advanceStage(myRoom, myDialogue, myEffect){
-  cardBase.call(this, myRoom, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
 
   this.action = function(){
     currStage++;
