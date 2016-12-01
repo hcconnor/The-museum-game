@@ -24,9 +24,9 @@ var abilities = {
 //Action points subject to change
 var AP = {
   "Thief": 5,
-  "Politician": 4,
+  "Politician": 5,
   "Veteran": 5,
-  "Professor": 4
+  "Professor": 5
 }
 
 function fillParty(){
@@ -51,40 +51,51 @@ function stateManager(){
 function movementPhase(){
   this.begin = function(){
     console.log("MovementPhase");
+    canvas.addEventListener("mouseup", button_click);
     var input = new CanvasInput({
     canvas: document.getElementById('The-Museum-Game')
     });
 
-    $("#theButton").click(function(){
-        console.log(input.value());
-        currPlayerAP[currPlayer] -= 2;
-        currPlayer++;
-    })
+    // buttonArray[0].click(function(){
+    //   //console.log(input.value());
+    //   input.value = "";
+    //   currPlayerAP[currPlayer] -= 2;
+    //   currPlayer++;});
 
     for(var i = 0; i < party.length; i++){
       currPlayerAP[i] = party[i].actionPoints;
     }
+
+    function button_click(e) {
+      console.log("click");
+            for (let button of buttonArray) {
+                if (checkBounds(button, e.clientX, e.clientY)) {
+                  button.click(phaseClick, input.value());
+                  input.value("");
+                }
+            }
+    }
   }
 
   this.draw = function(){
-
+    buttonArray[0].draw();
   }
 
   this.update = function(){
-    console.log("current Player: " + currPlayer);
-    this.draw();
+    //console.log("current Player: " + currPlayer);
 
     if(currPlayer >= 4){
       currPlayer = 0;
       transitionState("actionPhase");
     }else if(currPlayerAP[currPlayer] > 0){
-      console.log("current AP: " + currPlayerAP[currPlayer]);
+      //console.log("current AP: " + currPlayerAP[currPlayer]);
       //ask for input
       //currPlayerAP[currPlayer]--;
     }else{
       console.log("No more points!");
       currPlayer++;
     }
+    this.draw();
   }
 };
 
@@ -96,10 +107,10 @@ function actionPhase(){
     canvas: document.getElementById('The-Museum-Game')
     });
 
-    $("#theButton").click(function(){
-        console.log(input.value());
-        currPlayerAP[currPlayer]--;
-    })
+  //  $("#theButton").click(function(){
+  //      console.log(input.value());
+  //      currPlayerAP[currPlayer]--;
+  //  })
   }
 
   this.draw = function(){
@@ -107,8 +118,7 @@ function actionPhase(){
   }
 
   this.update = function(){
-    console.log("current Player: " + currPlayer);
-    this.draw();
+  //  console.log("current Player: " + currPlayer);
 
     if(currPlayer >= 4){
       currPlayer = 0;
@@ -117,9 +127,10 @@ function actionPhase(){
       //ask for input
       //currPlayerAP[currPlayer]--;
     }else{
-      Console.log("No more points!");
+  //    Console.log("No more points!");
       currPlayer++;
     }
+    this.draw();
   }
 };
 
@@ -133,9 +144,15 @@ function init(){
   museum = [];
   party = [];
   currPlayer = 0;
+  var myGUI = new gui();
+  myGUI.guiInit();
+
   fillParty();
   transitionState("movementPhase");
 };
+
+
+
 
 init();
 setInterval(stateManager,FRAMES);
