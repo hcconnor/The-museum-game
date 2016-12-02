@@ -67,10 +67,9 @@ function movementPhase(){
     }
 
     function button_click(e) {
-      console.log("click");
             for (let button of buttonArray) {
                 if (checkBounds(button, e.clientX, e.clientY)) {
-                  button.click(phaseClick, input.value());
+                  button.click(inputClick, input.value());
                   input.value("");
                 }
             }
@@ -78,7 +77,12 @@ function movementPhase(){
   }
 
   this.draw = function(){
-    buttonArray[0].draw();
+    for(let button of buttonArray){
+      button.draw();
+    }
+    for(let guiElement of guiArray){
+      guiElement.draw();
+    }
   }
 
   this.update = function(){
@@ -103,6 +107,7 @@ function movementPhase(){
 function actionPhase(){
   this.begin = function(){
     console.log("ActionPhase");
+    canvas.addEventListener("mouseup", button_click);
     var input = new CanvasInput({
     canvas: document.getElementById('The-Museum-Game')
     });
@@ -111,10 +116,24 @@ function actionPhase(){
   //      console.log(input.value());
   //      currPlayerAP[currPlayer]--;
   //  })
+
+  function button_click(e) {
+            for (let button of buttonArray) {
+                if (checkBounds(button, e.clientX, e.clientY)) {
+                  button.click(inputClick, input.value());
+                  input.value("");
+                }
+            }
+    }
   }
 
   this.draw = function(){
-
+    for(let button of buttonArray){
+      button.draw();
+    }
+    for(let guiElement of guiArray){
+      guiElement.draw();
+    }
   }
 
   this.update = function(){
