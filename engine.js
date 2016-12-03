@@ -84,3 +84,8 @@ function inputClick(testStr){
     console.log("Current Player: "+currPlayer);
   }
 }
+
+function nextPlayer(None){
+  console.log(currPlayer);
+  currPlayer++;
+}

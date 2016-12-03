@@ -51,10 +51,10 @@ function stateManager(){
 function movementPhase(){
   this.begin = function(){
     console.log("MovementPhase");
-    canvas.addEventListener("mouseup", button_click);
-    var input = new CanvasInput({
-    canvas: document.getElementById('The-Museum-Game')
-    });
+  //  canvas.addEventListener("mouseup", button_click);
+    // var input = new CanvasInput({
+    // canvas: document.getElementById('The-Museum-Game')
+    // });
 
     // buttonArray[0].click(function(){
     //   //console.log(input.value());
@@ -66,36 +66,32 @@ function movementPhase(){
       currPlayerAP[i] = party[i].actionPoints;
     }
 
-    function button_click(e) {
-            for (let button of buttonArray) {
-                if (checkBounds(button, e.clientX, e.clientY)) {
-                  button.click(inputClick, input.value());
-                  input.value("");
-                }
-            }
-    }
+    // function button_click(e) {
+    //         for (let button of buttonArray) {
+    //             if (checkBounds(button, e.clientX, e.clientY)) {
+    //               if (button.text == "Enter") button.click(inputClick, input.value());
+    //               else if (button.text == "Next Turn") button.click(nextPlayer, null);
+    //               input.value("");
+    //             }
+    //         }
+    // }
   }
 
   this.draw = function(){
-    for(let button of buttonArray){
-      button.draw();
-    }
-    for(let guiElement of guiArray){
-      guiElement.draw();
-    }
+
   }
 
   this.update = function(){
     //console.log("current Player: " + currPlayer);
 
-    if(currPlayer >= 4){
+    if(currPlayer > 4){
       currPlayer = 0;
       transitionState("actionPhase");
     }else if(currPlayerAP[currPlayer] > 0){
       //console.log("current AP: " + currPlayerAP[currPlayer]);
       //ask for input
       //currPlayerAP[currPlayer]--;
-    }else{
+    }else if(currPlayerAP[currPlayer] < 2){
       console.log("No more points!");
       currPlayer++;
     }
@@ -107,45 +103,31 @@ function movementPhase(){
 function actionPhase(){
   this.begin = function(){
     console.log("ActionPhase");
-    canvas.addEventListener("mouseup", button_click);
-    var input = new CanvasInput({
-    canvas: document.getElementById('The-Museum-Game')
-    });
+  //  canvas.addEventListener("mouseup", button_click);
+
 
   //  $("#theButton").click(function(){
   //      console.log(input.value());
   //      currPlayerAP[currPlayer]--;
   //  })
 
-  function button_click(e) {
-            for (let button of buttonArray) {
-                if (checkBounds(button, e.clientX, e.clientY)) {
-                  button.click(inputClick, input.value());
-                  input.value("");
-                }
-            }
-    }
-  }
+
+}
 
   this.draw = function(){
-    for(let button of buttonArray){
-      button.draw();
-    }
-    for(let guiElement of guiArray){
-      guiElement.draw();
-    }
+
   }
 
   this.update = function(){
   //  console.log("current Player: " + currPlayer);
 
-    if(currPlayer >= 4){
+    if(currPlayer > 4){
       currPlayer = 0;
       transitionState("movementPhase");
     }else if(currPlayerAP[currPlayer] > 0){
       //ask for input
       //currPlayerAP[currPlayer]--;
-    }else{
+    }else if(currPlayerAP[currPlayer] <= 0){
   //    Console.log("No more points!");
       currPlayer++;
     }
@@ -163,14 +145,39 @@ function init(){
   museum = [];
   party = [];
   currPlayer = 0;
+
+  var input = new CanvasInput({
+  canvas: document.getElementById('The-Museum-Game')
+  });
+
   var myGUI = new gui();
   myGUI.guiInit();
+  canvas.addEventListener("mouseup", button_click);
+
+  draw();
+
+  function button_click(e) {
+          for (let button of buttonArray) {
+              if (checkBounds(button, e.clientX, e.clientY)) {
+                if (button.text == "Enter") button.click(inputClick, input.value());
+                else if (button.text == "Next Turn") button.click(nextPlayer, null);
+                input.value("");
+              }
+          }
+  }
 
   fillParty();
   transitionState("movementPhase");
 };
 
-
+function draw(){
+  for(let button of buttonArray){
+    button.draw();
+  }
+  for(let guiElement of guiArray){
+    guiElement.draw();
+  }
+}
 
 
 init();
