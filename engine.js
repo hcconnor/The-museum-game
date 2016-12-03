@@ -21,11 +21,21 @@ function guiElement(X, Y, width, height, filled, color){
   this.width = width;
   this.height = height;
   this.filled = filled;
+  this.text = [];
+
+  this.fillText = function(str){
+    this.text.push(str);
+  }
+
+  this.clearText = function(){
+    this.text = [];
+  }
 
   this.draw = function(){
     if(!this.filled){
       context.rect(this.x, this.y, this.width, this.height);
       context.stroke();
+      //print shit here
     }else{
       context.fillStyle = color;
       context.fillRect(this.x, this.y, this.width, this.height);
