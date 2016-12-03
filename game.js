@@ -69,7 +69,8 @@ function movementPhase(){
     function button_click(e) {
             for (let button of buttonArray) {
                 if (checkBounds(button, e.clientX, e.clientY)) {
-                  button.click(inputClick, input.value());
+                  if (button.text == "Enter") button.click(inputClick, input.value());
+                  else if (button.text == "Next Turn") button.click(nextPlayer, null);
                   input.value("");
                 }
             }
@@ -118,14 +119,15 @@ function actionPhase(){
   //  })
 
   function button_click(e) {
-            for (let button of buttonArray) {
-                if (checkBounds(button, e.clientX, e.clientY)) {
-                  button.click(inputClick, input.value());
-                  input.value("");
-                }
-            }
-    }
+          for (let button of buttonArray) {
+              if (checkBounds(button, e.clientX, e.clientY)) {
+                if (button.text == "Enter") button.click(inputClick, input.value());
+                else if (button.text == "Next Turn") button.click(nextPlayer, null);
+                input.value("");
+              }
+          }
   }
+}
 
   this.draw = function(){
     for(let button of buttonArray){
