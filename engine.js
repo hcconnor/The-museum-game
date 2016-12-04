@@ -9,8 +9,8 @@ function gui(){
     buttonArray[0] = new button("Enter", canvas.width/2, canvas.height/2, 100, 50);
     buttonArray[1] = new button("Next Turn", buttonArray[0].x + 2*buttonArray[0].width + 20, canvas.height/2, 150, 50);
 
-    guiArray[0] = new guiElement(5,10,400,200,false,null);
-    guiArray[1] = new guiElement(410,10,200,200,false,null);
+    guiArray[0] = new guiElement(5,10,400,200,false,null);  //Main Display
+    guiArray[1] = new guiElement(410,10,200,200,false,null); //Player state
   }
 
 };
@@ -31,11 +31,23 @@ function guiElement(X, Y, width, height, filled, color){
     this.text = [];
   }
 
+  this.clearGUI = function(){
+    context.fillStyle = "WHITE";
+    context.fillRect(this.x,this.y,this.width,this.height);
+  }
+
   this.draw = function(){
     if(!this.filled){
       context.rect(this.x, this.y, this.width, this.height);
       context.stroke();
-      //print shit here
+
+      var Yoffset = 0;
+      for(let str in this.text){
+        context.fillStyle = "BLACK";
+        context.font = "20px Arial";
+        context.fillText(this.text[str], this.x+5,this.y+25+Yoffset);
+        Yoffset += 25;
+      }
     }else{
       context.fillStyle = color;
       context.fillRect(this.x, this.y, this.width, this.height);
@@ -71,18 +83,35 @@ function checkBounds(object, mouseX, mouseY) {
     }
 };
 
-function inputClick(testStr){
-  console.log(testStr);
+function inputClick(inputStr){
+  var output;
   if (currState == "movementPhase"){
     currPlayerAP[currPlayer] -= 2;
-    console.log("Current Player: "+currPlayer);
-    console.log("Current AP: "+currPlayerAP[currPlayer]);
-    currPlayer++;
+    output = searchDatabase(inputStr);
+    nextPlayer();
+    if (guiArray[0].text.length > 0) guiArray[0].clearText();
+    guiArray[0].fillText(output.room);
+    guiArray[0].fillText(output.dialogue);
+    guiArray[0].fillText(output.effect);
   } else if( currState == "actionPhase"){
     currPlayerAP[currPlayer]--;
-    console.log("Current Player: "+currPlayer);
-    console.log("Current Player: "+currPlayer);
+    output = searchDatabase(inputStr);
+    if (guiArray[0].text.length > 0) guiArray[0].clearText();
+    guiArray[0].fillText(output.room);
+    guiArray[0].fillText(output.dialogue);
+    guiArray[0].fillText(output.effect);
   }
+  for(var i = 0; i < guiArray.length; i++){
+    guiArray[i].clearGUI();
+    guiArray[i].draw();
+  }
+}
+
+function displayPlayer(){
+  guiArray[1].clearText();
+  guiArray[1].clearGUI();
+  guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
+  guiArray[1].fillText("AP: "+party[currPlayer].actionPoints);
 }
 
 function nextPlayer(None){
