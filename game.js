@@ -13,6 +13,31 @@ function player(myPlayerNum, myType){
   this.skills = abilities[this.type];
   this.inventory = [];
   this.actionPoints = AP[this.type];
+  this.health = 10;
+
+  this.currBadGoal = 0;
+  this.currGoodGoal = 0;
+  this.badGoals = [];
+  this.goodGoals = [];
+
+  this.modHealth = function(value){
+    this.health += value;
+  }
+
+  this.fillGoals = function(){
+    this.badGoals = badGoals[this.type];
+    this.goodGoals = goodGoals[this.type];
+  }
+
+  this.advanceBadGoal = function(){
+    this.currBadGoal++;
+    currStage++;
+  }
+
+  this.advancedGoodGoal = function(){
+    this.currGoodGoal++;
+    currStage++;
+  }
 }
 
 var abilities = {
@@ -27,6 +52,20 @@ var AP = {
   "Politician": 5,
   "Veteran": 5,
   "Professor": 5
+}
+
+var badGoals = {
+  "Thief" : [],
+  "Politician" : [],
+  "Veteran" : [],
+  "Professor" : []
+}
+
+var goodGoals = {
+  "Thief" : [],
+  "Politician" : [],
+  "Veteran" : [],
+  "Professor" : []
 }
 
 function fillParty(){
