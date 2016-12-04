@@ -68,6 +68,19 @@ var goodGoals = {
   "Professor" : []
 }
 
+function pickup(player, item){
+  player.inventory.push(item);
+}
+
+function drop(player, item){
+  for(let myItem of player.inventory){
+    if (myItem.name == item.name) {
+      int i = indexOf(myItem);
+      inventory.splice(i,1);
+    }
+  }
+}
+
 function fillParty(){
   var roles = ["Thief", "Politician", "Veteran", "Professor"];
   for(var i = 0; i < 4; i++){
