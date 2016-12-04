@@ -93,6 +93,7 @@ function inputClick(inputStr){
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
     guiArray[0].fillText(output.effect);
+    displayPlayer();
   } else if( currState == "Action Phase"){
     currPlayerAP[currPlayer]--;
     output = searchDatabase(inputStr);
@@ -100,6 +101,7 @@ function inputClick(inputStr){
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
     guiArray[0].fillText(output.effect);
+    displayPlayer();
   }
   for(var i = 0; i < guiArray.length; i++){
     guiArray[i].clearGUI();
