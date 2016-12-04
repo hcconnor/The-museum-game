@@ -54,9 +54,13 @@ function advanceStage(myRoom, myDialogue, myEffect){
     currStage++;
   }
 }
+//----------------------CARD DATABASE FUNCTIONS-------------------------
+function searchDatabase(index){
+  return cardDatabase[index][currStage-1];
+}
 //-----------------------CARD DATABASE STRUCTURE-------------------------
 var cardDatabase= {
          "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
                    "A1": [new cardBase("Lobby","Welcome to the Museum!","Gain +1 wonder")],
-                   "B1": ["The Gift Shop", "The Gift shop woooooo"]
+                   "B1": [new cardBase("The Gift Shop","The Gift shop wooooo","Lose $400 gg nerd")]
 };
