@@ -11,6 +11,7 @@ function gui(){
 
     guiArray[0] = new guiElement(5,10,400,200,false,null);  //Main Display
     guiArray[1] = new guiElement(410,10,200,200,false,null); //Player state
+    guiArray[2] = new guiElement(410,225,200,200, false, null); //Abilities display
   }
 
 };

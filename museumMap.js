@@ -15,8 +15,17 @@ function makeMap(){
   museum.push(new node("Power Room")); //5
   museum.push(new node("Security Room")); //6
   museum.push(new node("Medieval Exhibit")); //7
+
+  //connect rooms here
 }
 
-function fillCards(currRoom){
 
+//pathfinding algorithm
+function findPath(start, end){
+  var path = [];
+  for(let nextRm of start.links){
+    if (nextRm.name == end.name){
+      
+    }
+  }
 }
