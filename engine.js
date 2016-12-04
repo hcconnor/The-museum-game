@@ -85,7 +85,7 @@ function checkBounds(object, mouseX, mouseY) {
 
 function inputClick(inputStr){
   var output;
-  if (currState == "movementPhase"){
+  if (currState == "Movement Phase"){
     currPlayerAP[currPlayer] -= 2;
     output = searchDatabase(inputStr);
     nextPlayer();
@@ -93,7 +93,7 @@ function inputClick(inputStr){
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
     guiArray[0].fillText(output.effect);
-  } else if( currState == "actionPhase"){
+  } else if( currState == "Action Phase"){
     currPlayerAP[currPlayer]--;
     output = searchDatabase(inputStr);
     if (guiArray[0].text.length > 0) guiArray[0].clearText();
@@ -108,10 +108,13 @@ function inputClick(inputStr){
 }
 
 function displayPlayer(){
-  guiArray[1].clearText();
-  guiArray[1].clearGUI();
-  guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
-  guiArray[1].fillText("AP: "+party[currPlayer].actionPoints);
+  if (currPlayer < 4){
+    guiArray[1].clearText();
+    guiArray[1].clearGUI();
+    guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
+    guiArray[1].fillText("AP: "+party[currPlayer].actionPoints);
+    guiArray[1].fillText(currState);
+  }
 }
 
 function nextPlayer(None){
