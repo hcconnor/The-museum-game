@@ -9,20 +9,19 @@
     be part of the array in the list where dialogue/text is kept right now?
 
 */
-function cardBase(myRoom, myType, myDialogue, myEffect){
+function cardBase(myRoom, myDialogue, myEffect){
   this.room = myRoom;
-  this.type = myType;
   this.dialogue = myDialogue;
   this.effect = myEffect;
 };
 
 function item(myRoom, myDialogue, myEffect, myName){
-  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myDialogue, myEffect);
   this.name = myName;
 };
 
 function affectPlayerHealth(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -31,7 +30,7 @@ function affectPlayerHealth(myRoom, myDialogue, myEffect, myValue){
 };
 
 function affectGlobalBoolean(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -40,7 +39,7 @@ function affectGlobalBoolean(myRoom, myDialogue, myEffect, myValue){
 };
 
 function affectPlayerAP(myRoom, myDialogue, myEffect, myValue){
-  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myDialogue, myEffect);
   this.value = myValue;
 
   this.action = function(target){
@@ -49,15 +48,15 @@ function affectPlayerAP(myRoom, myDialogue, myEffect, myValue){
 };
 
 function advanceStage(myRoom, myDialogue, myEffect){
-  cardBase.call(this, myRoom, myType, myDialogue, myEffect);
+  cardBase.call(this, myRoom, myDialogue, myEffect);
 
   this.action = function(){
     currStage++;
   }
 }
 //-----------------------CARD DATABASE STRUCTURE-------------------------
-var stage1 = {
-         "example line": ["Room","Guide dialogue"],
-                   "A1": ["The Lobby", "Welcome to the Tortugan museum of history! Experiece our new Mysteries of Inca exhibit! Available for a short time only!"],
+var cardDatabase= {
+         "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
+                   "A1": [new cardBase("Lobby","Welcome to the Museum!","Gain +1 wonder")],
                    "B1": ["The Gift Shop", "The Gift shop woooooo"]
 };
