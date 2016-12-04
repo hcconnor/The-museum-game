@@ -80,8 +80,8 @@ var states = {};
 var currState = "movementPhase";
 var currPlayerAP = [];
 
-states["movementPhase"] = new movementPhase();
-states["actionPhase"] = new actionPhase();
+states["Movement Phase"] = new movementPhase();
+states["Action Phase"] = new actionPhase();
 
 function stateManager(){
   states[currState].update();
@@ -89,7 +89,6 @@ function stateManager(){
 
 function movementPhase(){
   this.begin = function(){
-    console.log("MovementPhase");
   //  canvas.addEventListener("mouseup", button_click);
     // var input = new CanvasInput({
     // canvas: document.getElementById('The-Museum-Game')
@@ -125,7 +124,7 @@ function movementPhase(){
 
     if(currPlayer > 4){
       currPlayer = 0;
-      transitionState("actionPhase");
+      transitionState("Action Phase");
     }else if(currPlayerAP[currPlayer] > 0){
       //console.log("current AP: " + currPlayerAP[currPlayer]);
       //ask for input
@@ -163,7 +162,7 @@ function actionPhase(){
 
     if(currPlayer > 4){
       currPlayer = 0;
-      transitionState("movementPhase");
+      transitionState("Movement Phase");
     }else if(currPlayerAP[currPlayer] > 0){
       //ask for input
       //currPlayerAP[currPlayer]--;
@@ -212,7 +211,7 @@ function init(){
   displayPlayer();
 
   draw();
-  transitionState("movementPhase");
+  transitionState("Movement Phase");
 };
 
 function draw(){

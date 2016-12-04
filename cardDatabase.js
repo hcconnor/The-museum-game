@@ -20,6 +20,13 @@ function item(myRoom, myDialogue, myEffect, myName){
   this.name = myName;
 };
 
+function book(myRoom, myDialogue, myEffect, myName){
+  item.call(this,myRoom, myDialogue, myEffect, myName);
+  this.action = function(){
+    //print words
+  }
+}
+
 function affectPlayerHealth(myRoom, myDialogue, myEffect, myValue){
   cardBase.call(this, myRoom, myDialogue, myEffect);
   this.value = myValue;
@@ -64,3 +71,7 @@ var cardDatabase= {
                    "A1": [new cardBase("Lobby","Welcome to the Museum!","Gain +1 wonder")],
                    "B1": [new cardBase("The Gift Shop","The Gift shop wooooo","Lose $400 gg nerd")]
 };
+//------------------------BOOKS-----------------------------------------
+var library = {
+  "Title" : ["hopefully the text fits here" , "one page at a time"]
+}
