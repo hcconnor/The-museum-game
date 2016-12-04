@@ -93,9 +93,10 @@ function movementPhase(){
       //currPlayerAP[currPlayer]--;
     }else if(currPlayerAP[currPlayer] < 2){
       console.log("No more points!");
-      currPlayer++;
+      nextPlayer();
     }
-    this.draw();
+    displayPlayer();
+    draw();
   }
 };
 
@@ -129,9 +130,10 @@ function actionPhase(){
       //currPlayerAP[currPlayer]--;
     }else if(currPlayerAP[currPlayer] <= 0){
   //    Console.log("No more points!");
-      currPlayer++;
+      nextPlayer();
     }
-    this.draw();
+    displayPlayer();
+    draw();
   }
 };
 
@@ -147,14 +149,14 @@ function init(){
   currPlayer = 0;
 
   var input = new CanvasInput({
-  canvas: document.getElementById('The-Museum-Game')
+  canvas: document.getElementById('The-Museum-Game'),
+  x : 10,
+  y : canvas.height/2
   });
 
   var myGUI = new gui();
   myGUI.guiInit();
   canvas.addEventListener("mouseup", button_click);
-
-  draw();
 
   function button_click(e) {
           for (let button of buttonArray) {
@@ -167,6 +169,10 @@ function init(){
   }
 
   fillParty();
+
+  displayPlayer();
+
+  draw();
   transitionState("movementPhase");
 };
 
@@ -175,10 +181,10 @@ function draw(){
     button.draw();
   }
   for(let guiElement of guiArray){
+    guiElement.clearGUI();
     guiElement.draw();
   }
 }
-
 
 init();
 setInterval(stateManager,FRAMES);

@@ -43,10 +43,9 @@ function guiElement(X, Y, width, height, filled, color){
 
       var Yoffset = 0;
       for(let str in this.text){
-        console.log(this.text[str]);
         context.fillStyle = "BLACK";
         context.font = "20px Arial";
-        context.fillText(this.text[str], this.x,this.y+25+Yoffset);
+        context.fillText(this.text[str], this.x+5,this.y+25+Yoffset);
         Yoffset += 25;
       }
     }else{
@@ -86,11 +85,10 @@ function checkBounds(object, mouseX, mouseY) {
 
 function inputClick(inputStr){
   var output;
-  console.log(inputStr);
   if (currState == "movementPhase"){
     currPlayerAP[currPlayer] -= 2;
     output = searchDatabase(inputStr);
-    currPlayer++;
+    nextPlayer();
     if (guiArray[0].text.length > 0) guiArray[0].clearText();
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
@@ -107,6 +105,13 @@ function inputClick(inputStr){
     guiArray[i].clearGUI();
     guiArray[i].draw();
   }
+}
+
+function displayPlayer(){
+  guiArray[1].clearText();
+  guiArray[1].clearGUI();
+  guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
+  guiArray[1].fillText("AP: "+party[currPlayer].actionPoints);
 }
 
 function nextPlayer(None){
