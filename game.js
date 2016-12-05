@@ -16,6 +16,7 @@ function player(myPlayerNum, myType){
   this.modifier = 1;
   this.target;
   this.actionInput;
+  this.skills = [];
 
   this.currBadGoal = 0;
   this.currGoodGoal = 0;
@@ -25,10 +26,6 @@ function player(myPlayerNum, myType){
   this.inputAction = function(command,target){
     this.target = target;
     this.actionInput = command;
-  }
-
-  this.doAction = function(method, param){
-    method(param);
   }
 
   this.modHealth = function(value){
@@ -51,10 +48,12 @@ function player(myPlayerNum, myType){
   }
 
   this.pickup = function(target){
+    currPlayerAP[currPlayer] --;
     this.inventory.push(target);
   }
 
   this.interact = function(target){
+    currPlayerAP[currPlayer] --;
     target.action();
   }
 
@@ -63,6 +62,7 @@ function player(myPlayerNum, myType){
   }
 
   this.drop = function(target){
+    currPlayerAP[currPlayer] --;
     for(let myItem of this.inventory){
       if (myItem.name == target.name) {
         var i = this.inventory.indexOf(myItem);
@@ -107,6 +107,13 @@ function thief(myPlayerNum, myType){
   this.preparation = function(target){
 
   }
+
+  this.parseCommand = function(command, target){
+    if(command == "Pick Up") this.pickup(target);
+    else if(command == "Drop") this.drop(target);
+    else if(command == "Pilfer") this.pilfer(target);
+    else if(command == "Preparation") this.preparation(target);
+  }
 }
 
 function politician(myPlayerNum, myType){
@@ -121,6 +128,7 @@ function politician(myPlayerNum, myType){
   this.health = 9;
 
   this.ritual = function(target){
+    currPlayerAP[currPlayer] --;
     if(currStage == 1){
       currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
     }else if(currStage == 2){
@@ -134,6 +142,12 @@ function politician(myPlayerNum, myType){
       this.health = 0;
       //pls what the fuck how do i even do this
     }
+  }
+
+  this.parseCommand = function(command, target){
+    if(command == "Pick Up") this.pickup(target);
+    else if(command == "Drop") this.drop(target);
+    else if(command == "Ritual") this.ritual(target);
   }
 }
 
@@ -157,12 +171,20 @@ function veteran(myPlayerNum, myType){
   }
 
   this.bunkerDown = function(target){
+    currPlayerAP[currPlayer] -= 6;
     target.modifier = 0.5;
     if(this.searchInventory("Tower Shield")){
       for(let player of party){
         player.modifier = 0.5;
       }
     }
+  }
+
+  this.parseCommand = function(command, target){
+    if(command == "Pick Up") this.pickup(target);
+    else if(command == "Drop") this.drop(target);
+    else if(command == "Attack") this.attack(target);
+    else if(command == "Bunker Down") this.bunkerDown(target);
   }
 }
 
@@ -184,6 +206,13 @@ function professor(myPlayerNum, myType){
 
   this.spellwork = function(target){
     target.action();
+  }
+
+  this.parseCommand = function(command, target){
+    if(command == "Pick Up") this.pickup(target);
+    else if(command == "Drop") this.drop(target);
+    else if(command == "Read") this.read(target);
+    else if(command == "Spellwork") this.spellwork(target);
   }
 }
 
