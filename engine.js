@@ -6,8 +6,8 @@ var guiArray = [];
 //-----------------ENGINE MECHANICS---------------------
 function gui(){
   this.guiInit = function(){
-    buttonArray[0] = new button("Enter", canvas.width/2, canvas.height/2, 100, 50);
-    buttonArray[1] = new button("Next Turn", buttonArray[0].x + 2*buttonArray[0].width + 20, canvas.height/2, 150, 50);
+    buttonArray[0] = new button("Enter", canvas.width/2 - 55, canvas.height/2, 100, 50);
+    buttonArray[1] = new button("Next Turn", canvas.width/2 - 30, canvas.height/2 + 60, 150, 50);
 
     guiArray[0] = new guiElement(5,10,400,200,false,null);  //Main Display
     guiArray[1] = new guiElement(410,10,200,200,false,null); //Player state
@@ -88,7 +88,6 @@ function inputClick(inputStr){
   var output;
   if (currState == "Movement Phase"){
     output = searchDatabase(inputStr);
-    console.log(party[currPlayer].currRoom);
     var path = findPath(nameToRoom(party[currPlayer].currRoom),nameToRoom(output.room),party[currPlayer])
     if(path.length == 0){
       guiArray[0].fillText("No path to room");
@@ -100,19 +99,13 @@ function inputClick(inputStr){
       guiArray[0].fillText(output.effect);
       nextPlayer();
     }
-    displayPlayer();
-  } else if( currState == "Action Phase"){
-    currPlayerAP[currPlayer]--;
+    //displayPlayer();
+  } else if(currState == "Action Phase"){
     output = searchDatabase(inputStr);
     if (guiArray[0].text.length > 0) guiArray[0].clearText();
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
     guiArray[0].fillText(output.effect);
-    displayPlayer();
-  }
-  for(var i = 0; i < guiArray.length; i++){
-    guiArray[i].clearGUI();
-    guiArray[i].draw();
   }
 }
 
@@ -120,21 +113,33 @@ function displayPlayer(){
   if (currPlayer < 4){
     guiArray[1].clearText();
     guiArray[1].clearGUI();
-    guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
+    guiArray[1].fillText("Player: "+(currPlayer+1));
     guiArray[1].fillText("AP: "+currPlayerAP[currPlayer]);
     guiArray[1].fillText(currState);
   }
 }
 
+function displayAbilities(){
+  guiArray[2].clearText();
+  guiArray[2].clearGUI();
+  guiArray[2].fillText("Abilities");
+  if (currPlayer < 4){
+    for(let i in party[currPlayer].skills){
+      //console.log(party[currPlayer].skills[i]);
+      guiArray[2].fillText(party[currPlayer].skills[i]);
+    }
+  }
+}
+
 function nextPlayer(None){
-  console.log(currPlayer);
+  //console.log(currPlayer);
   currPlayer++;
 }
 
 function nameToRoom(name){
   for(let room of museum){
     if (room.name == name){
-      console.log(room);
+      //console.log(room);
       return room;
     }
   }
