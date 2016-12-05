@@ -91,9 +91,9 @@ function searchDatabase(index){
 var cardDatabase= {
          "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
                    "L1": [new cardBase("Lobby","Welcome to the Museum pf History!","Experience our new Mysteries of the Inca exhibit! Available for a short time only!", "Room")],
-                   "C1": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")]
-                   "C2": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")]
-                   "C3": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
+                   "C1": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")],
+                   "C2": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")],
+                   "C3": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")],
                    "C4": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
 };
 //------------------------BOOKS-----------------------------------------

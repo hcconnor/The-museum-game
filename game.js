@@ -10,12 +10,10 @@ var currPlayer
 function player(myPlayerNum, myType){
   this.playerNum = myPlayerNum;
   this.type = myType;
-  this.skills = abilities[this.type];
   this.inventory = [];
-  this.actionPoints = APHealth[this.type][0];
-  this.health = APHealth[this.type][1];
   this.currRoom = "Lobby";
   this.currPath = [];
+  this.modifier = 1;
 
   this.currBadGoal = 0;
   this.currGoodGoal = 0;
@@ -40,20 +38,112 @@ function player(myPlayerNum, myType){
     this.currGoodGoal++;
     currStage++;
   }
+
+  this.pickup = function(target){
+    this.inventory.push(target);
+  }
+
+  this.interact = function(target){
+    target.action();
+  }
+
+  this.damage = function(value){
+    this.health -= (value*this.modifier);
+  }
+
+  this.drop = function(target){
+    for(let myItem of this.inventory){
+      if (myItem.name == target.name) {
+        var i = this.inventory.indexOf(myItem);
+        this.inventory.splice(i,1);
+      }
+    }
+  }
+
+  this.searchInventory = function(target){
+    for(let item of this.inventory){
+      if(item.name == target) return true;
+      else return false;
+    }
+  }
 }
 
-var abilities = {
-         "Thief": ["Pick Up","Drop","Unlock","lol whatever this one was"],
-    "Politician": [],
-       "Veteran": [],
-     "Professor": []
-};
-//Action points subject to change
-var APHealth = {
-  "Thief": [7,10],
-  "Politician": [5,9],
-  "Veteran": [6,12],
-  "Professor": [5,10]
+function thief(myPlayerNum, myType){
+  player.call(this, myPlayerNum, myType);
+
+  this.skills = ["Pick Up", "Drop", "Pilfer", "Preparation"];
+  this.actionPoints = 7;
+  this.health = 10;
+
+  this.pilfer = function(target){
+    if(target.inventory.length > 0 && currPlayerAP[currPlayer] > 1){
+      //print stuff
+      var index;
+      currPlayerAP[currPlayer] -= 2;
+      index = Math.random() * target.inventory.length;
+      this.pickup(target.inventory[index]);
+      target.drop(target.inventory[index]);
+    }else{
+      //print stuff
+    }
+  }
+
+  this.preparation = function(target){
+
+  }
+}
+
+function politician(myPlayerNum, myType){
+  player.call(this, myPlayerNum, myType);
+
+  this.skills = ["Pick Up", "Drop", "Chant Spell"];
+  this.actionPoints = 5;
+  this.health = 9;
+
+  this.chant = function(target){
+    if(currStage == 1){
+      currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
+    }else if(currStage == 2){
+      currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
+      currPlayerHealth[currPlayer] = party[currPlayer].health;
+    }else if(currStage == 3){
+
+    }else if(currStage == 4){
+
+    }
+  }
+}
+
+function veteran(myPlayerNum, myType){
+  player.call(this, myPlayerNum, myType);
+
+  this.skills = ["Pick Up", "Drop", "Attack", "Bunker Down"];
+  this.actionPoints = 6;
+  this.health = 12;
+
+  this.attack = function(target){
+    if(currPlayerAP[currPlayer] >= 3){
+      target.health -= 3;
+      currPlayerAP[currPlayer] -= 3;
+    }
+  }
+
+  this.bunkerDown(target){
+    target.modifier = 0.5;
+    if(this.searchInventory("Tower Shield")){
+      for(let player of party){
+        player.modifier = 0.5;
+      }
+    }
+  }
+}
+
+function professor(myPlayerNum, myType){
+  player.call(this, myPlayerNum, myType);
+
+  this.skills = ["Pick Up", "Drop", "Read", "Spellwork"];
+  this.actionPoints = 5;
+  this.health = 10;
 }
 
 var badGoals = {
@@ -70,30 +160,18 @@ var goodGoals = {
   "Professor" : []
 }
 
-function pickup(player, item){
-  player.inventory.push(item);
-}
-
-function drop(player, item){
-  for(let myItem of player.inventory){
-    if (myItem.name == item.name) {
-      var i = inventory.indexOf(myItem);
-      inventory.splice(i,1);
-    }
-  }
-}
-
 function fillParty(){
-  var roles = ["Thief", "Politician", "Veteran", "Professor"];
-  for(var i = 0; i < 4; i++){
-    party.push(new player(i+1, roles[i]))
-  }
+  party[0] = new thief(0, "Thief");
+  party[1] = new politician(1, "Politician");
+  party[2] = new veteran(2, "Veteran");
+  party[3] = new professor(3, "Professor");
 };
 
 //---------------------GAME STATES---------------------
 var states = {};
 var currState = "movementPhase";
 var currPlayerAP = [];
+var currPlayerHealth = [];
 
 states["Movement Phase"] = new movementPhase();
 states["Action Phase"] = new actionPhase();
@@ -149,6 +227,7 @@ function actionPhase(){
       nextPlayer();
     }
     displayPlayer();
+    displayAbilities();
     draw();
   }
 };
@@ -182,6 +261,10 @@ function init(){
                 input.value("");
               }
           }
+  }
+
+  for (var i = 0; i < 4; i++){
+    currPlayerHealth[i] = party[currPlayer].health;
   }
 
   fillParty();
