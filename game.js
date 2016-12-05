@@ -12,8 +12,8 @@ function player(myPlayerNum, myType){
   this.type = myType;
   this.skills = abilities[this.type];
   this.inventory = [];
-  this.actionPoints = AP[this.type];
-  this.health = 10;
+  this.actionPoints = APHealth[this.type][0];
+  this.health = APHealth[this.type][1];
 
   this.currBadGoal = 0;
   this.currGoodGoal = 0;
@@ -47,11 +47,11 @@ var abilities = {
      "Professor": []
 };
 //Action points subject to change
-var AP = {
-  "Thief": 5,
-  "Politician": 5,
-  "Veteran": 5,
-  "Professor": 5
+var APHealth = {
+  "Thief": [7,10],
+  "Politician": [5,9],
+  "Veteran": [6,12],
+  "Professor": [5,10]
 }
 
 var badGoals = {
