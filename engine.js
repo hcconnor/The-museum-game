@@ -45,9 +45,9 @@ function guiElement(X, Y, width, height, filled, color){
       var Yoffset = 0;
       for(let str in this.text){
         context.fillStyle = "BLACK";
-        context.font = "20px Arial";
+        context.font = "14px Arial";
         context.fillText(this.text[str], this.x+5,this.y+25+Yoffset);
-        Yoffset += 25;
+        Yoffset += 19;
       }
     }else{
       context.fillStyle = color;
@@ -70,7 +70,7 @@ function button(text, X, Y, width, height) {
     this.draw = function() {
         context.fillStyle = "GREY";
         context.fillRect(this.x, this.y, this.width, this.height);
-		    context.font = "30px Arial";
+		    context.font = "20px Arial";
         context.fillStyle = "BLACK";
         context.fillText(this.text, this.x + this.width / 2 - 50, this.y + this.height / 2);
     }
@@ -101,7 +101,16 @@ function inputClick(inputStr){
     }
     //displayPlayer();
   } else if(currState == "Action Phase"){
-    output = searchDatabase(inputStr);
+    var command = "";
+    var target = inputStr.split(" ");
+    output = searchDatabase(target[target.length-1]);
+
+    for(var i = 0; i < target.length-1; i++){
+      command += target[i];
+    }
+
+    party[currPlayer].parseCommand(command,target[target.length-1]);
+
     if (guiArray[0].text.length > 0) guiArray[0].clearText();
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
