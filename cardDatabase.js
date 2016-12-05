@@ -9,11 +9,22 @@
     be part of the array in the list where dialogue/text is kept right now?
 
 */
-function cardBase(myRoom, myDialogue, myEffect, myType){
+function discoveryCard(myRoom, myDialogue, isLocked){
   this.room = myRoom;
-  this.dialogue = myDialogue;
-  this.effect = myEffect;
-  this.type = myType;
+  this.dialogue = myDialogue; //single string
+  this.isLocked = isLocked; //boolean
+};
+
+function itemCard(myRoom, myDialogue, myEffect){
+  this.room = myRoom;
+  this.dialogue = myDialogue; //array of strings
+  this.effect = myEffect; //single string
+};
+
+function eventCard(myRoom, myDialogue, myEffect){
+  this.room = myRoom;
+  this.dialogue = myDialogue; //Array of strings
+  this.effect = myEffect; //Array of strings
 };
 
 function spawnMonster(myRoom, myDialogue, myEffect, myType){
@@ -90,13 +101,13 @@ function searchDatabase(index){
 //-----------------------CARD DATABASE STRUCTURE-------------------------
 var cardDatabase= {
          "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
-                   "L1": [new cardBase("The Lobby", ["Welcome to the Museum of History! Experience our new Mysteries of the Inca exhibit! Available for a short time only!", "Welcome to the Museum of History! Experience our new Mysteries of the Inca exhibit! Available for a short time only!", "There is no escape!", "There is no escape!"], [""], "Discovery Card")],
-                   "E1": [new cardBase("The Egyptian Exhibit",["The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.", "The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.","The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.","The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun."],[""], "Discovery Card")],
-                   "E2": [new cardBase("The Egyptian Exhibit",["Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem."],["If picked up by a player, add the burial urn to their inventory.", "If picked up by a player, add the burial urn to their inventory.", "If picked up by a player, add the burial urn to their inventory.", "If picked up by a player, add the burial urn to their inventory.", "If picked up by a player, add the burial urn to their inventory."], "Item")],
-                   "E3": [new cardBase("The Egyptian Exhibit",["The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed."],["","Spawn a 2/2 Tomb Guardian in the current room.", "Spawn a 2/2 Tomb Guardian in the current room.","Spawn a 2/2 Tomb Guardian in the current room."], "Event")],
-                   "E4": [new cardBase("The Egyptian Exhibit",["The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth."],["Lose 2 AP for this turn only.", "Lose 2 AP for this turn only.", "Lose 2 AP for this turn only.", "Lose 2 AP for this turn only."], "Event")],
-                   "E5": [new cardBase("The Egyptian Exhibit",[""],[""], "")],
-                   "E6": [new cardBase("The Egyptian Exhibit",[""],[""], "")],
+                   "L1": [new discoveryCard("The Lobby", ["Welcome to the Museum of History! Experience our new Mysteries of the Inca exhibit! Available for a short time only!", false)],
+                   "E1": [new discoveryCard("The Egyptian Exhibit",["The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.", "The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.","The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun.","The Egyptians were a once great civilization that had thrived through blistering sands and the burning Sun."])],
+                   "E2": [new itemCard("The Egyptian Exhibit",["Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem.", "Cracked and worn with age, this burial urn has served its tenant well post mortem."], "If picked up by a player, add the burial urn to their inventory.")],
+                   "E3": [new eventCard("The Egyptian Exhibit",["The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed.", "The Egyptians never did like having their tombs robbed."],["","Spawn a 2/2 Tomb Guardian in the current room.", "Spawn a 2/2 Tomb Guardian in the current room.","Spawn a 2/2 Tomb Guardian in the current room."])],
+                   "E4": [new eventCard("The Egyptian Exhibit",["", "", "", "Rejoyce! You have found the end to your journey in this sandy tomb!"],["","", "","Lose 3 AP for this turn only"])],
+                   "E5": [new eventCard("The Egyptian Exhibit",["The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth.", "The Egyptian Snake god represented chaos and opposed the gods of light and truth."],["Lose 2 AP for this turn only.", "Lose 2 AP for this turn only.", "Lose 2 AP for this turn only.", "Lose 2 AP for this turn only."])],
+                   "E6": [new itemCard("The Egyptian Exhibit",["Some curious trivia about the Egyptian Khopesh: its name may have been derived from the Egyptian word for leg of beef", "Some curious trivia about the Egyptian Khopesh: its name may have been derived from the Egyptian word for leg of beef", "Some curious trivia about the Egyptian Khopesh: its name may have been derived from the Egyptian word for leg of beef", "Some curious trivia about the Egyptian Khopesh: its name may have been derived from the Egyptian word for leg of beef"], "If picked up by a player, add a curved sword to their inventory.  If used, 3 deal damage to another player or monster in the same room.")],
                    "E7": [new cardBase("The Egyptian Exhibit",[""],[""], "")],
                    "E8": [new cardBase("The Egyptian Exhibit",[""],[""], "")],
                    "E9": [new cardBase("The Egyptian Exhibit",[""],[""], "")],
