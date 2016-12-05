@@ -15,8 +15,11 @@ function makeMap(){
   museum.push(new node("Power Room"));        //5
   museum.push(new node("Security Room"));     //6
   museum.push(new node("Medieval Exhibit"));  //7
+  museum.push(new node("Courtyard"));         //8
 
   //connect rooms here
+  museum[0].links.push(museum[8]);
+  museum[8].links.push(museum[0]);
 }
 
 
@@ -26,6 +29,7 @@ function findPath(start, end, myPlayer){
   var availableRms = playerAP/2;
 
   var path = search(start, end, myPlayer);
+  myPlayer.currPath = path;
   return path;
 }
 
@@ -35,12 +39,12 @@ function search(myStart, myEnd, avblAP){
   var end = myEnd;
   var result = [];
 
-  for(var i = 0; i < start.link.length; i++){
-    if(start.link[i].name == end.name){
-      result.push(start.link[i]);
+  for(var i = 0; i < start.links.length; i++){
+    if(start.links[i].name == end.name){
+      result.push(start.links[i]);
       return result;
     }else if(AP > 0){
-      result.push(search(start.link[i],end, AP-1));
+      result.push(search(start.links[i],end, AP-1));
     }else{
       return result;
     }

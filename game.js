@@ -14,6 +14,8 @@ function player(myPlayerNum, myType){
   this.inventory = [];
   this.actionPoints = APHealth[this.type][0];
   this.health = APHealth[this.type][1];
+  this.currRoom = "Lobby";
+  this.currPath = [];
 
   this.currBadGoal = 0;
   this.currGoodGoal = 0;
@@ -75,7 +77,7 @@ function pickup(player, item){
 function drop(player, item){
   for(let myItem of player.inventory){
     if (myItem.name == item.name) {
-      int i = indexOf(myItem);
+      var i = inventory.indexOf(myItem);
       inventory.splice(i,1);
     }
   }
@@ -102,30 +104,10 @@ function stateManager(){
 
 function movementPhase(){
   this.begin = function(){
-  //  canvas.addEventListener("mouseup", button_click);
-    // var input = new CanvasInput({
-    // canvas: document.getElementById('The-Museum-Game')
-    // });
-
-    // buttonArray[0].click(function(){
-    //   //console.log(input.value());
-    //   input.value = "";
-    //   currPlayerAP[currPlayer] -= 2;
-    //   currPlayer++;});
 
     for(var i = 0; i < party.length; i++){
       currPlayerAP[i] = party[i].actionPoints;
     }
-
-    // function button_click(e) {
-    //         for (let button of buttonArray) {
-    //             if (checkBounds(button, e.clientX, e.clientY)) {
-    //               if (button.text == "Enter") button.click(inputClick, input.value());
-    //               else if (button.text == "Next Turn") button.click(nextPlayer, null);
-    //               input.value("");
-    //             }
-    //         }
-    // }
   }
 
   this.draw = function(){
@@ -133,15 +115,11 @@ function movementPhase(){
   }
 
   this.update = function(){
-    //console.log("current Player: " + currPlayer);
 
-    if(currPlayer > 4){
+    if(currPlayer >= 4){
       currPlayer = 0;
       transitionState("Action Phase");
     }else if(currPlayerAP[currPlayer] > 0){
-      //console.log("current AP: " + currPlayerAP[currPlayer]);
-      //ask for input
-      //currPlayerAP[currPlayer]--;
     }else if(currPlayerAP[currPlayer] < 2){
       console.log("No more points!");
       nextPlayer();
@@ -155,15 +133,6 @@ function movementPhase(){
 function actionPhase(){
   this.begin = function(){
     console.log("ActionPhase");
-  //  canvas.addEventListener("mouseup", button_click);
-
-
-  //  $("#theButton").click(function(){
-  //      console.log(input.value());
-  //      currPlayerAP[currPlayer]--;
-  //  })
-
-
 }
 
   this.draw = function(){
@@ -171,16 +140,12 @@ function actionPhase(){
   }
 
   this.update = function(){
-  //  console.log("current Player: " + currPlayer);
 
-    if(currPlayer > 4){
+    if(currPlayer >= 4){
       currPlayer = 0;
       transitionState("Movement Phase");
     }else if(currPlayerAP[currPlayer] > 0){
-      //ask for input
-      //currPlayerAP[currPlayer]--;
     }else if(currPlayerAP[currPlayer] <= 0){
-  //    Console.log("No more points!");
       nextPlayer();
     }
     displayPlayer();
@@ -222,6 +187,8 @@ function init(){
   fillParty();
 
   displayPlayer();
+
+  makeMap();
 
   draw();
   transitionState("Movement Phase");
