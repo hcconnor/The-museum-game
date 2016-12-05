@@ -70,7 +70,7 @@ function searchDatabase(index){
 var cardDatabase= {
          "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
                    "A1": [new cardBase("Lobby","Welcome to the Museum!","Gain +1 wonder", "Room")],
-                   "B1": [new cardBase("The Gift Shop","The Gift shop wooooo","Lose $400 gg nerd", "Room")]
+                   "B1": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
 };
 //------------------------BOOKS-----------------------------------------
 var library = {
