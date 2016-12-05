@@ -11,6 +11,7 @@ function gui(){
 
     guiArray[0] = new guiElement(5,10,400,200,false,null);  //Main Display
     guiArray[1] = new guiElement(410,10,200,200,false,null); //Player state
+    guiArray[2] = new guiElement(410,225,200,200, false, null); //Abilities display
   }
 
 };
@@ -86,13 +87,19 @@ function checkBounds(object, mouseX, mouseY) {
 function inputClick(inputStr){
   var output;
   if (currState == "Movement Phase"){
-    currPlayerAP[currPlayer] -= 2;
     output = searchDatabase(inputStr);
-    nextPlayer();
-    if (guiArray[0].text.length > 0) guiArray[0].clearText();
-    guiArray[0].fillText(output.room);
-    guiArray[0].fillText(output.dialogue);
-    guiArray[0].fillText(output.effect);
+    console.log(party[currPlayer].currRoom);
+    var path = findPath(nameToRoom(party[currPlayer].currRoom),nameToRoom(output.room),party[currPlayer])
+    if(path.length == 0){
+      guiArray[0].fillText("No path to room");
+    }else{
+      currPlayerAP[currPlayer] -= path.length*2;
+      if (guiArray[0].text.length > 0) guiArray[0].clearText();
+      guiArray[0].fillText(output.room);
+      guiArray[0].fillText(output.dialogue);
+      guiArray[0].fillText(output.effect);
+      nextPlayer();
+    }
     displayPlayer();
   } else if( currState == "Action Phase"){
     currPlayerAP[currPlayer]--;
@@ -114,7 +121,7 @@ function displayPlayer(){
     guiArray[1].clearText();
     guiArray[1].clearGUI();
     guiArray[1].fillText("Player: "+party[currPlayer].playerNum);
-    guiArray[1].fillText("AP: "+party[currPlayer].actionPoints);
+    guiArray[1].fillText("AP: "+currPlayerAP[currPlayer]);
     guiArray[1].fillText(currState);
   }
 }
@@ -122,4 +129,13 @@ function displayPlayer(){
 function nextPlayer(None){
   console.log(currPlayer);
   currPlayer++;
+}
+
+function nameToRoom(name){
+  for(let room of museum){
+    if (room.name == name){
+      console.log(room);
+      return room;
+    }
+  }
 }
