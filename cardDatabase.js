@@ -16,6 +16,14 @@ function cardBase(myRoom, myDialogue, myEffect, myType){
   this.type = myType;
 };
 
+function spawnMonster(myRoom, myDialogue, myEffect, myType){
+  cardBase.call(this, myRoom, myDialogue, myEffect, myType);
+
+  this.action = function(target){
+    target.hasMonster = true;
+  }
+};
+
 function item(myRoom, myDialogue, myEffect, myName, myType){
   cardBase.call(this, myRoom, myDialogue, myEffect, myType);
   this.name = myName;
@@ -24,7 +32,7 @@ function item(myRoom, myDialogue, myEffect, myName, myType){
 function book(myRoom, myDialogue, myEffect, myName, myType){
   item.call(this,myRoom, myDialogue, myEffect, myName, myType);
   this.action = function(){
-    //print words
+    return "Pick up book";
   }
 }
 
@@ -55,6 +63,19 @@ function affectPlayerAP(myRoom, myDialogue, myEffect, myValue, myType){
   }
 };
 
+function changePlayerRoom(myRoom, myDialogue, myEffect, myValue, myType){
+  cardBase.call(this, myRoom, myDialogue, myEffect, myType);
+  this.value = myValue;
+
+  this.action = function(target, condition){
+    if(party[currPlayer].role != condition){
+      party[currPlayer].currRoom = target;
+    }else if(currPlayerAP[currPlayer] < 2){
+      party[currPlayer].currRoom = target;
+    }else;
+  }
+};
+
 function advanceStage(myRoom, myDialogue, myEffect, myType){
   cardBase.call(this, myRoom, myDialogue, myEffect, myType);
 
@@ -69,8 +90,11 @@ function searchDatabase(index){
 //-----------------------CARD DATABASE STRUCTURE-------------------------
 var cardDatabase= {
          "example line": ["Room","stage 1 dialogue","stage 2 dialogue","stage 3 dialogue","stage 4 dialogue"],
-                   "A1": [new cardBase("Lobby","Welcome to the Museum!","Gain +1 wonder", "Room")],
-                   "B1": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
+                   "L1": [new cardBase("Lobby","Welcome to the Museum pf History!","Experience our new Mysteries of the Inca exhibit! Available for a short time only!", "Room")],
+                   "C1": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")]
+                   "C2": [new cardBase("Courtyard","Just a courtyard.","Why are you outside?", "Room")]
+                   "C3": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
+                   "C4": [new cardBase("Courtyard","Sigh","This was a mistake", "Room")]
 };
 //------------------------BOOKS-----------------------------------------
 var library = {
