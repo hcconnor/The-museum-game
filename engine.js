@@ -101,19 +101,12 @@ function inputClick(inputStr){
     }
     //displayPlayer();
   } else if(currState == "Action Phase"){
-    //currPlayerAP[currPlayer]--;
     output = searchDatabase(inputStr);
     if (guiArray[0].text.length > 0) guiArray[0].clearText();
     guiArray[0].fillText(output.room);
     guiArray[0].fillText(output.dialogue);
     guiArray[0].fillText(output.effect);
-    //displayPlayer();
   }
-  // for(var i = 0; i < guiArray.length; i++){
-  //   console.log(guiArray[i].skills);
-  //   guiArray[i].clearGUI();
-  //   guiArray[i].draw();
-  // }
 }
 
 function displayPlayer(){

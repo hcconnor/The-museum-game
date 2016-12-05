@@ -14,11 +14,22 @@ function player(myPlayerNum, myType){
   this.currRoom = "Lobby";
   this.currPath = [];
   this.modifier = 1;
+  this.target;
+  this.actionInput;
 
   this.currBadGoal = 0;
   this.currGoodGoal = 0;
   this.badGoals = [];
   this.goodGoals = [];
+
+  this.inputAction = function(command,target){
+    this.target = target;
+    this.actionInput = command;
+  }
+
+  this.doAction = function(method, param){
+    method(param);
+  }
 
   this.modHealth = function(value){
     this.health += value;
@@ -71,7 +82,12 @@ function player(myPlayerNum, myType){
 function thief(myPlayerNum, myType){
   player.call(this, myPlayerNum, myType);
 
-  this.skills = ["Pick Up", "Drop", "Pilfer", "Preparation"];
+  this.skills = [
+    "Pick Up",
+    "Drop",
+    "Pilfer",
+    "Preparation"
+  ];
   this.actionPoints = 7;
   this.health = 10;
 
@@ -96,20 +112,27 @@ function thief(myPlayerNum, myType){
 function politician(myPlayerNum, myType){
   player.call(this, myPlayerNum, myType);
 
-  this.skills = ["Pick Up", "Drop", "Chant Spell"];
+  this.skills = [
+    "Pick Up",
+    "Drop",
+    "Ritual"
+  ];
   this.actionPoints = 5;
   this.health = 9;
 
-  this.chant = function(target){
+  this.ritual = function(target){
     if(currStage == 1){
       currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
     }else if(currStage == 2){
       currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
       currPlayerHealth[currPlayer] = party[currPlayer].health;
     }else if(currStage == 3){
-
+      currPlayerAP[currPlayer] = party[currPlayer].actionPoints;
+      target.actionPoints = 0;
+      target.modifier = 0;
     }else if(currStage == 4){
-
+      this.health = 0;
+      //pls what the fuck how do i even do this
     }
   }
 }
@@ -117,7 +140,12 @@ function politician(myPlayerNum, myType){
 function veteran(myPlayerNum, myType){
   player.call(this, myPlayerNum, myType);
 
-  this.skills = ["Pick Up", "Drop", "Attack", "Bunker Down"];
+  this.skills = [
+    "Pick Up",
+    "Drop",
+    "Attack",
+    "Bunker Down"
+  ];
   this.actionPoints = 6;
   this.health = 12;
 
@@ -128,7 +156,7 @@ function veteran(myPlayerNum, myType){
     }
   }
 
-  this.bunkerDown(target){
+  this.bunkerDown = function(target){
     target.modifier = 0.5;
     if(this.searchInventory("Tower Shield")){
       for(let player of party){
@@ -141,9 +169,22 @@ function veteran(myPlayerNum, myType){
 function professor(myPlayerNum, myType){
   player.call(this, myPlayerNum, myType);
 
-  this.skills = ["Pick Up", "Drop", "Read", "Spellwork"];
+  this.skills = [
+    "Pick Up",
+    "Drop",
+    "Read",
+    "Spellwork"
+  ];
   this.actionPoints = 5;
   this.health = 10;
+
+  this.read = function(target){
+    //display prompt
+  }
+
+  this.spellwork = function(target){
+    target.action();
+  }
 }
 
 var badGoals = {
@@ -211,6 +252,9 @@ function movementPhase(){
 function actionPhase(){
   this.begin = function(){
     console.log("ActionPhase");
+    for(let player of party){
+      if(player.modifier == 0.5) player.modifier = 1;
+    }
 }
 
   this.draw = function(){
@@ -263,11 +307,11 @@ function init(){
           }
   }
 
-  for (var i = 0; i < 4; i++){
-    currPlayerHealth[i] = party[currPlayer].health;
-  }
-
   fillParty();
+
+  for (var i = 0; i < 4; i++){
+    currPlayerHealth[i] = party[i].health;
+  }
 
   displayPlayer();
 
